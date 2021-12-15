@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Same Image Checker</title>
+  <link href="./assets/css/index.css" rel="stylesheet">
+</head>
+<body>
+  <div class="layout-wrapper">
+    <div class="input-wrapper">
+      <div class="input-box">
+        <form>
+          <label class="file-trigger" for="file-input">
+          파일 선택
+          </label>
+          <input
+            type="file"
+            id="file-input"
+            class="file"
+            accept="image/*,.pdf"
+            required
+          />
+          <button type="button" id="compare-button" class="file-compare">
+            비교
+          </button>
+        </form>
+        </div>
+      </div>
+
+      <div id="file-board" class="board">
+      <div id="boader-frame"></div>
+      <div id="result-percent" class="percent"></div>
+    </div>
+  </div>
+<script src="./assets/js/index.js"></script>
+</body>
+</html>
