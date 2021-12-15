@@ -39,11 +39,25 @@ const getResize = (image, maxSize) => {
 const displayViewImage = url => {
   const viewImage = new Image();
   const frame = document.createElement('div');
+  const removeButton = document.createElement('button');
 
   viewImage.src = url;
+  removeButton.dataset.index = compareImagesRGB.length;
+  removeButton.innerText = 'X';
+  removeButton.classList.add('frame-remove-button');
   frame.classList.add('frame');
+  frame.classList.add('frame-' + compareImagesRGB.length);
+  frame.appendChild(removeButton);
   frame.appendChild(viewImage);
   fileFrame.appendChild(frame);
+
+  removeButton.addEventListener('click', ({ target }) => {
+    const index = target.dataset.index;
+    const targetClass = document.getElementsByClassName('frame-' + index);
+    fileFrame.removeChild(targetClass[0]);
+    compareImagesRGB.splice(index, 1);
+    resultSpan.innerText = '';
+  });
 };
 
 const resizeImage = ({ canvas, file, maxSize }) => {
@@ -57,6 +71,11 @@ const resizeImage = ({ canvas, file, maxSize }) => {
   return new Promise((resolve, reject) => {
     if (!file || !file.type.match(/image.*/)) {
       reject(new Error('파일이 없거나 이미지가 아닙니다.'));
+      return;
+    }
+
+    if (fileFrame.childElementCount >= 2) {
+      alert('최대 이미지 갯수는 2개 입니다.');
       return;
     }
 
@@ -96,7 +115,7 @@ const grayscaleImage = (context, image) => {
   // B - 색상 블루 (from 0-255)
   // A - 알파 채널 (from 0-255; 0 is transparent and 255 is fully visible)
   // 컬러 / 알파 정보는 배열로 유지되고, 저장되는 데이터 imageData의 객체의 속성.
-  console.log('width,height', width,height)
+  // console.log('width,height', width,height)
 
   const pixelsAvg = [];
 
@@ -157,6 +176,11 @@ const handleOnChangeFileInput = ({ target }) => {
 };
 
 const handleOnClickCompare = () => {
+  if (compareImagesRGB.length < 2) {
+    alert('비교할 이미지를 선택해주세요.')
+    return;
+  }
+
   const firstImage = compareImagesRGB[0];
   const second = compareImagesRGB[1];
   const firstImageLength = firstImage.length;
